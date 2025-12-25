@@ -1,0 +1,152 @@
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+const letters = [
+  "Madam jii, if my words ever tremble around you, it is because they know they are standing near something precious.",
+  "Anahita, I don’t love loudly — I love like a corridor light left on, quietly, so you never feel lost.",
+  "Sometimes I imagine my name resting gently in your thoughts, not as noise, just as warmth.",
+  "If I ever fall silent, know this — even my silence is thinking of you.",
+  "Madam jii, I promise nothing grand… only this: I will always be careful where your heart is concerned."
+];
+
+export default function SorryApp() {
+  const [forgiven, setForgiven] = useState(false);
+  const [angryTries, setAngryTries] = useState(0);
+  const [openLetter, setOpenLetter] = useState(null);
+
+  const AngryKitty = () => (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="flex flex-col items-center space-y-3"
+    >
+      <motion.div
+        animate={{ rotate: [0, -5, 5, -5, 0] }}
+        transition={{ repeat: Infinity, duration: 0.6 }}
+        className="text-6xl"
+      >
+        🐱🔫
+      </motion.div>
+      <p className="text-rose-700 font-medium">Still angry, Madam jii? 😾</p>
+      <p className="text-sm text-gray-600 italic">okay okay… Madam jii, try again 🥺</p>
+    </motion.div>
+  );
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-100 via-rose-100 to-red-100 p-4">
+      <Card className="max-w-md w-full rounded-2xl shadow-xl">
+        <CardContent className="p-6 text-center space-y-6">
+          {!forgiven ? (
+            <>
+              <motion.h1
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-2xl font-semibold text-rose-700"
+              >
+                hello Madam jii… it’s your gadha 🙈
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="text-gray-700 leading-relaxed"
+              >
+                I disappeared for two tiny minutes, and I know — that wasn’t the problem.
+                <br />
+                Feelings are.
+                <br />
+                <br />
+                You feel deeply, Madam jii, and it’s my responsibility to handle that with the softest care.
+                <br />
+                I’m really, really sorry. Pinky promise — I’ll never do that again 🤞
+              </motion.p>
+
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="text-sm text-rose-600 italic"
+              >
+                Anahita… you’re the only one I genuinely want to talk to.
+                <br />
+                All I want is to see you smile — the kind that makes my whole day lighter.
+              </motion.p>
+
+              <div className="space-y-2">
+                <p className="text-xs text-gray-500 italic">little envelopes… open them gently 💌</p>
+                <div className="flex justify-center gap-2 flex-wrap">
+                  {letters.map((_, i) => (
+                    <motion.button
+                      key={i}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="text-3xl"
+                      onClick={() => setOpenLetter(i)}
+                    >
+                      💌
+                    </motion.button>
+                  ))}
+                </div>
+              </div>
+
+              <AnimatePresence>
+                {openLetter !== null && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="bg-white/70 rounded-xl p-4 text-sm text-gray-700 italic"
+                  >
+                    {letters[openLetter]}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {angryTries > 0 && <AngryKitty />}
+
+              <div className="flex justify-center gap-4 pt-4">
+                <Button
+                  className="rounded-full bg-rose-500 hover:bg-rose-600"
+                  onClick={() => setForgiven(true)}
+                >
+                  okay… gadha forgiven, Madam jii 🩷
+                </Button>
+                <Button
+                  variant="outline"
+                  className="rounded-full"
+                  onClick={() => setAngryTries((v) => v + 1)}
+                >
+                  still angry 😤
+                </Button>
+              </div>
+            </>
+          ) : (
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="space-y-4"
+            >
+              <h2 className="text-2xl font-semibold text-green-600">yaaay Madam jii 🥹</h2>
+              <p className="text-gray-700">
+                thank you for forgiving this very stupid, very sincere gadha.
+                <br />
+                no disappearing. only choosing you, Anahita — again and again.
+              </p>
+              <motion.div
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ repeat: Infinity, duration: 1.2 }}
+                className="text-4xl"
+              >
+                🐱🌸🐴
+              </motion.div>
+              <p className="text-sm text-gray-500 italic">*extra‑tight virtual hug for Madam jii*</p>
+            </motion.div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
